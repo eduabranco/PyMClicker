@@ -2,7 +2,7 @@ import pyautogui
 import time
 import interface
 
-class Clicker(self):
+class Clicker:
     def __init__(self, selected_button="left", selected_duration=0.1):
         """
         Initializes the Clicker class.
