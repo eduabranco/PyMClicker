@@ -67,3 +67,10 @@ class Clicker:
         """
         interface_instance = PyMClickerInterface()
         interface_instance.root.mainloop()
+    def set_hotkey(self, hotkey):
+        """
+        Sets a hotkey for starting/stopping the clicking process.
+        This method can be extended to include actual hotkey functionality.
+        """
+        # Placeholder for hotkey functionality
+        pass
