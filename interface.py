@@ -1,5 +1,5 @@
 import tkinter as tk
-import clicker
+from clicker import Clicker
 
 class PyMClickerInterface:
     def __init__(self):
@@ -8,7 +8,7 @@ class PyMClickerInterface:
         Sets up the main application window and its components.
         """
         self.root = tk.Tk()
-        self.root.title("PyMClicker Interface")
+        self.root.title("PyMClicker")
         self.root.geometry("600x400")
         
         # Create a label
@@ -32,7 +32,7 @@ class PyMClickerInterface:
         """
         Starts the clicking process using the Clicker class.
         """
-        clicker_instance = clicker.Clicker()
+        clicker_instance = Clicker()
         clicker_instance.click()
     
 if __name__ == "__main__":
