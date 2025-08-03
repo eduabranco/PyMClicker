@@ -1,76 +1,24 @@
-import pyautogui
-import time
-from interface import PyMClickerInterface
-
-class ClickerManager:
-    def __init__(self, selected_button="left", selected_duration=0.1):
+class Clicker:
+    def __init__(self):
         """
         Initializes the Clicker class.
         Sets up the clicker with a default button and duration.
         """
-        self.__selected_button = selected_button
-        self.__selected_duration = selected_duration
-    
-    def click(self):
+        self.selected_button = "left"
+        self.selected_hotkey = "Scroll_Lock"  # Default hotkey
+        self.selected_click_type = "Single"  # Default click type
+        self.selected_duration = 0.1
+        self.isclicking = False
+            
+    def get_status(self):
         """
-        Performs a click action at the current mouse position.
-        If button is not specified, uses the default button.
-        If duration is not specified, uses the default duration.
+        Returns the current status of the clicker.
+        :return: A dictionary containing the current button, hotkey, click type, duration, and clicking status.
         """
-        pyautogui.click(button=self.__selected_button, duration=self.__selected_duration)
-    def set_button(self, button):
-        """
-        Sets the button to be used for clicking.
-        """
-        self.__selected_button = button
-    def set_duration(self, duration):
-        """
-        Sets the duration for the click action.
-        """
-        self.__selected_duration = duration
-    def get_button(self):
-        """
-        Returns the currently selected button.
-        """
-        return self.__selected_button
-    def get_duration(self):
-        """
-        Returns the currently selected duration.
-        """
-        return self.__selected_duration
-    def start_clicking(self):
-        """
-        Starts the clicking process.
-        This method can be extended to include more complex clicking logic.
-        """
-        while True:
-            self.click()
-            time.sleep(self.__selected_duration)
-    def stop_clicking(self):
-        """
-        Stops the clicking process.
-        This method can be extended to include logic to stop clicking.
-        """
-        # Placeholder for stopping logic
-        pass
-    def set_hotkey(self, hotkey):
-        """
-        Sets a hotkey for starting/stopping the clicking process.
-        This method can be extended to include actual hotkey functionality.
-        """
-        # Placeholder for hotkey functionality
-        pass
-    def run(self):
-        """
-        Opens the PyMClicker interface.
-        This method initializes and runs the interface.
-        """
-        interface_instance = PyMClickerInterface()
-        interface_instance.root.mainloop()
-    def set_hotkey(self, hotkey):
-        """
-        Sets a hotkey for starting/stopping the clicking process.
-        This method can be extended to include actual hotkey functionality.
-        """
-        # Placeholder for hotkey functionality
-        pass
+        return {
+            "button": self.selected_button,
+            "hotkey": self.selected_hotkey,
+            "click_type": self.selected_click_type,
+            "duration": self.selected_duration,
+            "isclicking": self.isclicking
+        }
