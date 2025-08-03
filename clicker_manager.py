@@ -32,6 +32,9 @@ class ClickerManager:
             return
 
     def _perform_clicks(self):
+        """
+        Performs the clicking actions based on the current settings.
+        """
         while self.clicker.isclicking:
             if self.clicker.b_or_k == "b":
                 pyautogui.click(button=self.clicker.selected_button)
