@@ -9,7 +9,7 @@ class ClickerManager:
         """
         self.clicker = Clicker()
 
-    def click(self):
+    def start_clicking(self):
         """
         Starts the clicking process based on the current settings.
         """
