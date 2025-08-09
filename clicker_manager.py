@@ -17,7 +17,7 @@ class ClickerManager:
         print("Clicking started with settings:", self.clicker.get_clicker_info())
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
-            if self.clicker.b_or_k == 'b':
+            if self.clicker.m_or_k == 'm':
                 if self.clicker.selected_click_type == "Hold":
                     self._perform_mouse_hold()
                 else:
@@ -117,29 +117,29 @@ class ClickerManager:
         self.clicker.selected_duration = duration
         print(f"Click duration set to: {duration} seconds")
 
-    def set_button_or_key(self, b_or_k):
+    def set_button_or_key(self, m_or_k):
         """
         Sets whether the click action is a mouse button or a keyboard key.
-        :param b_or_k: "b" for button, "k" for key.
+        :param m_or_k: "b" for button, "k" for key.
         """
-        self.clicker.b_or_k = b_or_k
-        print(f"Button or key set to: {b_or_k}")
+        self.clicker.m_or_k = m_or_k
+        print(f"Button or key set to: {m_or_k}")
     
     def set_clicker_options(self):
         """
         Sets the options for the clicker.
         """
         while True:
-            b_or_k = input("Enter 'b' for button or 'k' for key: ").strip().lower()
-            self.set_button_or_key(b_or_k)
-            if self.clicker.b_or_k == "b":
+            m_or_k = input("Enter 'm' for mouse button or 'k' for key: ").strip().lower()
+            self.set_button_or_key(m_or_k)
+            if self.clicker.m_or_k == "m":
                 break
-            elif self.clicker.b_or_k == "k":
+            elif self.clicker.m_or_k == "k":
                 break
             else:
-                print("Invalid input. Please enter 'b' or 'k'.")
+                print("Invalid input. Please enter 'm' or 'k'.")
 
-        if self.clicker.b_or_k == "b":
+        if self.clicker.m_or_k == "m":
             while True:
                 button = input("Enter mouse button (left/right/middle): ").strip().lower()
                 if button not in ["left", "right", "middle"]:
@@ -147,7 +147,7 @@ class ClickerManager:
                     continue
                 self.set_mouse_button(button)
                 break
-        elif self.clicker.b_or_k == "k":
+        elif self.clicker.m_or_k == "k":
             self.clicker.selected_button = []
             while True:
                 key = input("Enter keyboard key (a/b/c/... or [ENTER] to end): ").strip().lower()
