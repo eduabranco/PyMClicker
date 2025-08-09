@@ -14,10 +14,11 @@ class ClickerManager:
         """
         Starts the clicking process based on the current settings.
         """
+        print("Clicking started with settings:", self.clicker.get_clicker_info())
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
-            print("Clicking started with settings:", self.clicker.get_clicker_info())
-            self.start_time = time.time()
+            if self.clicker.selected_click_type == "Hold":
+                print("Holding down the mouse button.")
             self._perform_mouse_clicks()
         else:
             print("Clicking is already in progress. Use stop_clicking to stop it.")
@@ -33,6 +34,14 @@ class ClickerManager:
             print("Clicking is not in progress.")
             return
 
+    def _perform_mouse_hold(self):
+        """
+        Performs the mouse hold action based on the current settings.
+        """
+        pyautogui.mouseDown(button=self.clicker.selected_button)
+        time.sleep(self.clicker.selected_duration)
+        pyautogui.mouseUp(button=self.clicker.selected_button)
+
     def _perform_mouse_clicks(self):
         """
         Performs the clicking actions based on the current settings.
@@ -42,6 +51,23 @@ class ClickerManager:
                 break
             pyautogui.click(button=self.clicker.selected_button,)
         self.stop_clicking()
+
+    def _perform_keyboard_hold(self):
+        """
+        Performs the keyboard hold action based on the current settings.
+        """
+        pyautogui.keyDown(key=self.clicker.selected_button)
+        time.sleep(self.clicker.selected_duration)
+        pyautogui.keyUp(key=self.clicker.selected_button)
+
+    def _perform_keyboard_clicks(self):
+        """
+        Performs the clicking actions based on the current settings.
+        """
+        while (time.time() - self.start_time) < self.clicker.selected_duration:
+            if not self.clicker.isclicking:
+                break
+            pyautogui.press(key=self.clicker.selected_button)
 
     def set_mouse_button(self, button):
         """
