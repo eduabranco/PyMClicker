@@ -2,21 +2,22 @@ import pyautogui
 import time
 from clicker import Clicker
 import math
+
 class ClickerManager:
     def __init__(self):
         """
         Initializes the Clicker class.
         """
         self.clicker = Clicker()
-        self.start_time = time.time()
         
     def start_clicking(self):
         """
         Starts the clicking process based on the current settings.
         """
-        print("Clicking started with settings:", self.clicker.get_clicker_info())
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
+            print("Clicking started with settings:", self.clicker.get_clicker_info())
+            self.start_time = time.time()
             if self.clicker.m_or_k == 'm':
                 if self.clicker.selected_click_type == "Hold":
                     self._perform_mouse_hold()
@@ -64,20 +65,23 @@ class ClickerManager:
         """
         Performs the keyboard hold action based on the current settings.
         """
-        keyboard_set = set(self.clicker.selected_button)
-        pyautogui.keyDown(key=keyboard_set)
+        for i in self.clicker.selected_button:
+            pyautogui.keyDown(key=i)
         time.sleep(self.clicker.selected_duration)
-        pyautogui.keyUp(key=keyboard_set)
+        for i in self.clicker.selected_button:
+            pyautogui.keyUp(key=i)
 
     def _perform_keyboard_clicks(self):
         """
         Performs the clicking actions based on the current settings.
         """
-        keyboard_set = set(self.clicker.selected_button)
         while (time.time() - self.start_time) < self.clicker.selected_duration:
             if not self.clicker.isclicking:
                 break
-            pyautogui.press(key=keyboard_set)
+            for i in self.clicker.selected_button:
+                with pyautogui.hold(keys=i):
+                    if i == self.clicker.selected_button[-1]:
+                        pyautogui.press(keys=i)
 
     def set_mouse_button(self, button):
         """
@@ -202,7 +206,3 @@ class ClickerManager:
                 break
             else:
                 print("Unknown command. Please use 'start', 'stop', 'set', or 'exit'.")
-
-if __name__ == "__main__":
-    clicker_manager = ClickerManager()
-    clicker_manager.run()
