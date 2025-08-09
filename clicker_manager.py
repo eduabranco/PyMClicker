@@ -117,21 +117,21 @@ class ClickerManager:
         self.clicker.selected_duration = duration
         print(f"Click duration set to: {duration} seconds")
 
-    def set_button_or_key(self, m_or_k):
+    def set_mouse_or_key(self, m_or_k):
         """
         Sets whether the click action is a mouse button or a keyboard key.
-        :param m_or_k: "b" for button, "k" for key.
+        :param m_or_k: "m" for mouse, "k" for key.
         """
         self.clicker.m_or_k = m_or_k
-        print(f"Button or key set to: {m_or_k}")
-    
+        print(f"Mouse or key set to: {m_or_k}")
+
     def set_clicker_options(self):
         """
         Sets the options for the clicker.
         """
         while True:
             m_or_k = input("Enter 'm' for mouse button or 'k' for key: ").strip().lower()
-            self.set_button_or_key(m_or_k)
+            self.set_mouse_or_key(m_or_k)
             if self.clicker.m_or_k == "m":
                 break
             elif self.clicker.m_or_k == "k":

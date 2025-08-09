@@ -9,7 +9,7 @@ class Clicker:
         self.selected_click_type = "Single"  # Default click type
         self.selected_duration = 5  # Default duration in seconds
         self.isclicking = False  # Flag to track if clicking is in progress
-        self.b_or_k = "b"  # Default to button click
+        self.m_or_k = "m"  # Default to mouse click
 
     def get_clicker_info(self):
         """
@@ -22,5 +22,5 @@ class Clicker:
             "click_type": self.selected_click_type,
             "duration": self.selected_duration,
             "isclicking": self.isclicking,
-            "b_or_k": self.b_or_k
+            "m_or_k": self.m_or_k
         }
