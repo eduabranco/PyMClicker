@@ -1,4 +1,4 @@
-from clicker_manager import ClickerManager as Clicker
+#from clicker_manager import ClickerManager as Clicker
 import tkinter as tk
 import tkinter.ttk as ttk
 
@@ -12,7 +12,7 @@ class PyMClickerInterface():
         self.root.title("PyMClicker")
         self.root.geometry("300x200")
         self.is_clicking = False
-        
+        #self.clicker = Clicker()
         # Create a label
         self.label = ttk.Label(self.root, text="Welcome to PyMClicker!")
         self.label.pack(pady=20)
@@ -29,19 +29,13 @@ class PyMClickerInterface():
         """
         Starts the clicking process using the Clicker class.
         """
-        #clicker_instance = Clicker()
-        #clicker_instance.click()
-        if self.is_clicking==False:
-            self.is_clicking = True
-            self.switch_button.config(text="Stop Clicking", command=self.stop_clicking)
+        self.clicker.start_clicking()
 
     def stop_clicking(self):
         """
         Stops the clicking process.
         """
-        if self.is_clicking==True:
-            self.is_clicking = False
-            self.switch_button.config(text="Start Clicking", command=self.start_clicking)
+        self.clicker.stop_clicking()
 
     
     def open_settings(self):

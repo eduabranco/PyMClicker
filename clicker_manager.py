@@ -1,7 +1,6 @@
 import pyautogui
 import time
 from clicker import Clicker
-import time
 
 class ClickerManager:
     def __init__(self):
@@ -9,8 +8,8 @@ class ClickerManager:
         Initializes the Clicker class.
         """
         self.clicker = Clicker()
-        self.start_time = None
-
+        self.start_time = time.time()
+        
     def start_clicking(self):
         """
         Starts the clicking process based on the current settings.
@@ -172,7 +171,7 @@ class ClickerManager:
             break
 
         while True:
-            duration = input("Enter duration (in seconds): ").strip()
+            duration = input("Enter duration (in seconds) or just [ENTER] to use indefinitely: ").strip()
             try:
                 duration = float(duration)
                 self.set_duration(duration)

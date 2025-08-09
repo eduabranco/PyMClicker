@@ -4,7 +4,7 @@ class Clicker:
         Initializes the Clicker class.
         Sets up the clicker with a default button and duration.
         """
-        self.selected_button = ["left"]  # Default button
+        self.selected_button = "left"  # Default button
         self.selected_hotkey = ["Scroll_Lock"]  # Default hotkey
         self.selected_click_type = "Single"  # Default click type
         self.selected_duration = 5  # Default duration in seconds
