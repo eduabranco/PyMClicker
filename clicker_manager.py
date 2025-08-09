@@ -16,7 +16,7 @@ class ClickerManager:
         """
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
-            print("Clicking started with settings:", self.clicker.get_status())
+            print("Clicking started with settings:", self.clicker.get_clicker_info())
             self.start_time = time.time()
             self._perform_mouse_clicks()
         else:
