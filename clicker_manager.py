@@ -17,9 +17,17 @@ class ClickerManager:
         print("Clicking started with settings:", self.clicker.get_clicker_info())
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
-            if self.clicker.selected_click_type == "Hold":
-                print("Holding down the mouse button.")
-            self._perform_mouse_clicks()
+            if self.clicker.b_or_k == 'b':
+                if self.clicker.selected_click_type == "Hold":
+                    self._perform_mouse_hold()
+                else:
+                    self._perform_mouse_clicks()
+            else:
+                if self.clicker.selected_click_type == "Hold":
+                    self._perform_keyboard_hold()
+                else:
+                    self._perform_keyboard_clicks()
+            self.stop_clicking()
         else:
             print("Clicking is already in progress. Use stop_clicking to stop it.")
 
