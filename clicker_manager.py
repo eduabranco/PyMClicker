@@ -48,9 +48,6 @@ class ClickerManager:
         Sets the mouse button to be used for clicking.
         :param button: The mouse button to be set (e.g., "left", "right", "middle").
         """
-        if button not in ["left", "right", "middle"]:
-            print(f"Invalid mouse button: {button}. Please choose from left, right, or middle.")
-            return
         self.clicker.selected_button = button
         print(f"Mouse button set to: {button}")
 
@@ -59,7 +56,7 @@ class ClickerManager:
         Sets the keyboard key to be used for clicking.
         :param button: The keyboard key to be set (e.g., "a", "b", "c").
         """
-        self.clicker.selected_button = button
+        self.clicker.selected_button.append(button)
         print(f"Keyboard key set to: {button}")
 
     def set_hotkey(self, hotkey):
@@ -98,24 +95,56 @@ class ClickerManager:
         """
         Sets the options for the clicker.
         """
-        button = input("Enter mouse button (left/right/middle): ").strip().lower()
-        self.set_mouse_button(button)
+        while True:
+            b_or_k = input("Enter 'b' for button or 'k' for key: ").strip().lower()
+            self.set_button_or_key(b_or_k)
+            if self.clicker.b_or_k == "b":
+                break
+            elif self.clicker.b_or_k == "k":
+                break
+            else:
+                print("Invalid input. Please enter 'b' or 'k'.")
 
-        key = input("Enter keyboard key (a/b/c/...): ").strip().lower()
-        self.set_keyboard_key(key)
+        if self.clicker.b_or_k == "b":
+            while True:
+                button = input("Enter mouse button (left/right/middle): ").strip().lower()
+                if button not in ["left", "right", "middle"]:
+                    print(f"Invalid mouse button: {button}. Please choose from left, right, or middle.")
+                    continue
+                self.set_mouse_button(button)
+                break
 
-        hotkey = input("Enter hotkey (e.g., Ctrl+C): ").strip().lower()
+        elif self.clicker.b_or_k == "k":
+            self.clicker.selected_button = []
+            while True:
+                key = input("Enter keyboard key (a/b/c/... or [ENTER] to end): ").strip().lower()
+                if key == "":
+                    break
+                self.set_keyboard_key(key)
+        
         self.clicker.selected_hotkey = []
-        self.set_hotkey(hotkey)
+        while True:
+            hotkey = input("Enter hotkey (e.g., Ctrl+C): ").strip().lower()
+            if hotkey == "":
+                break
+            self.set_hotkey(hotkey)
 
-        click_type = input("Enter click type (Single/Double): ").strip().lower()
-        self.set_click_type(click_type)
+        while True:
+            click_type = input("Enter click type (Single/Double/Hold): ").strip().lower()
+            if click_type not in ["single", "double", "hold"]:
+                print(f"Invalid click type: {click_type}. Please choose from Single, Double, or Hold.")
+                continue
+            self.set_click_type(click_type)
+            break
 
-        duration = float(input("Enter duration (in seconds): ").strip())
-        self.set_duration(duration)
-
-        b_or_k = input("Enter 'b' for button or 'k' for key: ").strip().lower()
-        self.set_button_or_key(b_or_k)
+        while True:
+            duration = input("Enter duration (in seconds): ").strip()
+            try:
+                duration = float(duration)
+                self.set_duration(duration)
+                break
+            except ValueError:
+                print(f"Invalid duration: {duration}. Please enter a number.")
 
     def run(self):
         """
