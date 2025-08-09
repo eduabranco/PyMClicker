@@ -9,6 +9,7 @@ class ClickerManager:
         Initializes the Clicker class.
         """
         self.clicker = Clicker()
+        self.start_time = None
 
     def start_clicking(self):
         """
@@ -198,3 +199,7 @@ class ClickerManager:
                 break
             else:
                 print("Unknown command. Please use 'start', 'stop', 'set', or 'exit'.")
+
+if __name__ == "__main__":
+    clicker_manager = ClickerManager()
+    clicker_manager.run()
