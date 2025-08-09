@@ -64,18 +64,20 @@ class ClickerManager:
         """
         Performs the keyboard hold action based on the current settings.
         """
-        pyautogui.keyDown(key=self.clicker.selected_button)
+        keyboard_set = set(self.clicker.selected_button)
+        pyautogui.keyDown(key=keyboard_set)
         time.sleep(self.clicker.selected_duration)
-        pyautogui.keyUp(key=self.clicker.selected_button)
+        pyautogui.keyUp(key=keyboard_set)
 
     def _perform_keyboard_clicks(self):
         """
         Performs the clicking actions based on the current settings.
         """
+        keyboard_set = set(self.clicker.selected_button)
         while (time.time() - self.start_time) < self.clicker.selected_duration:
             if not self.clicker.isclicking:
                 break
-            pyautogui.press(key=self.clicker.selected_button)
+            pyautogui.press(key=keyboard_set)
 
     def set_mouse_button(self, button):
         """
