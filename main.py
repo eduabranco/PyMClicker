@@ -1,4 +1,4 @@
-from clicker import ClickerManager as Clicker
+from clicker_manager import ClickerManager as Clicker
 import tkinter as tk
 import tkinter.ttk as ttk
 

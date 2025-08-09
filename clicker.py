@@ -10,10 +10,10 @@ class Clicker:
         self.selected_duration = 0.1 # Default duration in seconds
         self.isclicking = False # Flag to track if clicking is in progress
         self.b_or_k = "b"  # Default to button click
-        
-    def get_status(self):
+
+    def get_clicker_info(self):
         """
-        Returns the current status of the clicker.
+        Returns the current information of the clicker.
         :return: A dictionary containing the current button, hotkey, click type, duration, and clicking status.
         """
         return {
