@@ -148,7 +148,6 @@ class ClickerManager:
                     continue
                 self.set_mouse_button(button)
                 break
-
         elif self.clicker.b_or_k == "k":
             self.clicker.selected_button = []
             while True:
