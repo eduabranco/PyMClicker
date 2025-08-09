@@ -1,6 +1,7 @@
 import pyautogui
 import time
 from clicker import Clicker
+import time
 
 class ClickerManager:
     def __init__(self):
@@ -89,4 +90,44 @@ class ClickerManager:
         """
         self.clicker.b_or_k = b_or_k
         print(f"Button or key set to: {b_or_k}")
+    
+    def set_clicker_options(self):
+        """
+        Sets the options for the clicker.
+        """
+        button = input("Enter mouse button (left/right/middle): ").strip().lower()
+        self.set_mouse_button(button)
 
+        key = input("Enter keyboard key (a/b/c/...): ").strip().lower()
+        self.set_keyboard_key(key)
+
+        hotkey = input("Enter hotkey (e.g., Ctrl+C): ").strip().lower()
+        self.set_hotkey(hotkey)
+
+        click_type = input("Enter click type (Single/Double): ").strip().lower()
+        self.set_click_type(click_type)
+
+        duration = float(input("Enter duration (in seconds): ").strip())
+        self.set_duration(duration)
+
+        b_or_k = input("Enter 'b' for button or 'k' for key: ").strip().lower()
+        self.set_button_or_key(b_or_k)
+
+    def run(self):
+        """
+        Starts the ClickerManager to handle clicking operations.
+        """
+        print("ClickerManager is running. Use start_clicking() to begin clicking.")
+        while True:
+            command = input("Enter command (start/stop/set/exit): ").strip().lower()
+            if command == "start":
+                self.start_clicking()
+            elif command == "stop":
+                self.stop_clicking()
+            elif command == "set":
+                self.set_clicker_options()
+            elif command == "exit":
+                self.stop_clicking()
+                break
+            else:
+                print("Unknown command. Please use 'start', 'stop', 'set', or 'exit'.")
