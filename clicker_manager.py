@@ -17,7 +17,8 @@ class ClickerManager:
         if not self.clicker.isclicking:
             self.clicker.isclicking = True
             print("Clicking started with settings:", self.clicker.get_status())
-            self._perform_clicks()
+            self.start_time = time.time()
+            self._perform_mouse_clicks()
         else:
             print("Clicking is already in progress. Use stop_clicking to stop it.")
 
@@ -32,22 +33,24 @@ class ClickerManager:
             print("Clicking is not in progress.")
             return
 
-    def _perform_clicks(self):
+    def _perform_mouse_clicks(self):
         """
         Performs the clicking actions based on the current settings.
         """
-        while self.clicker.isclicking:
-            if self.clicker.b_or_k == "b":
-                pyautogui.click(button=self.clicker.selected_button)
-            else:
-                pyautogui.hotkey(*self.clicker.selected_hotkey.split("+"))
-            time.sleep(self.clicker.selected_duration)
+        while (time.time() - self.start_time) < self.clicker.selected_duration:
+            if not self.clicker.isclicking:
+                break
+            pyautogui.click(button=self.clicker.selected_button,)
+        self.stop_clicking()
 
     def set_mouse_button(self, button):
         """
         Sets the mouse button to be used for clicking.
         :param button: The mouse button to be set (e.g., "left", "right", "middle").
         """
+        if button not in ["left", "right", "middle"]:
+            print(f"Invalid mouse button: {button}. Please choose from left, right, or middle.")
+            return
         self.clicker.selected_button = button
         print(f"Mouse button set to: {button}")
 
@@ -64,7 +67,7 @@ class ClickerManager:
         Sets the hotkey for starting/stopping the clicking process.
         :param hotkey: The hotkey to be set (e.g., "Ctrl+C").
         """
-        self.clicker.selected_hotkey = hotkey
+        self.clicker.selected_hotkey.append(hotkey)
         print(f"Hotkey set to: {hotkey}")
 
     def set_click_type(self, click_type):
@@ -102,6 +105,7 @@ class ClickerManager:
         self.set_keyboard_key(key)
 
         hotkey = input("Enter hotkey (e.g., Ctrl+C): ").strip().lower()
+        self.clicker.selected_hotkey = []
         self.set_hotkey(hotkey)
 
         click_type = input("Enter click type (Single/Double): ").strip().lower()

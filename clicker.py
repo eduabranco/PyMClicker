@@ -4,11 +4,11 @@ class Clicker:
         Initializes the Clicker class.
         Sets up the clicker with a default button and duration.
         """
-        self.selected_button = "left" # Default button
-        self.selected_hotkey = "Scroll_Lock"  # Default hotkey
+        self.selected_button = ["left"]  # Default button
+        self.selected_hotkey = ["Scroll_Lock"]  # Default hotkey
         self.selected_click_type = "Single"  # Default click type
-        self.selected_duration = 0.1 # Default duration in seconds
-        self.isclicking = False # Flag to track if clicking is in progress
+        self.selected_duration = 0.1  # Default duration in seconds
+        self.isclicking = False  # Flag to track if clicking is in progress
         self.b_or_k = "b"  # Default to button click
 
     def get_clicker_info(self):
