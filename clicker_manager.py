@@ -1,7 +1,7 @@
 import pyautogui
 import time
 from clicker import Clicker
-
+import math
 class ClickerManager:
     def __init__(self):
         """
@@ -172,6 +172,9 @@ class ClickerManager:
 
         while True:
             duration = input("Enter duration (in seconds) or just [ENTER] to use indefinitely: ").strip()
+            if duration == "":
+                self.set_duration(math.inf)
+                break
             try:
                 duration = float(duration)
                 self.set_duration(duration)
