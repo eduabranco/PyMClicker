@@ -2,8 +2,6 @@ import keyboard
 class ClickerStopper():
     def __init__(self, stopper_key):
         self.stopper_key = stopper_key
-
-    def stop_clicking(self):
         while True:
             if keyboard.is_pressed(self.stopper_key):
                 if self.stopper_key.isclicking:

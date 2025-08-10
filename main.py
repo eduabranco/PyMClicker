@@ -18,8 +18,7 @@ class PyMClickerInterface():
         self.root = tk.Tk()
         self.root.title("PyMClicker")
         self.root.geometry("300x200")
-        self.is_clicking = False
-        self.clicker = ClickerManager()
+        self.clicker_manager = ClickerManager()
 
         # Create a label
         self.label = ttk.Label(self.root, text="Welcome to PyMClicker!")
@@ -36,8 +35,8 @@ class PyMClickerInterface():
         self.status = ttk.Label(self.root, text=self._hotkey_status_text())
         self.status.pack(pady=5)
 
-        # Focused-window hotkey (F8) toggle
-        self.root.bind("<F8>", lambda e: self.toggle_clicking())
+        # Focused-window hotkey (selected_hotkey) toggle
+        self.root.bind(f"<{self.clicker_manager.clicker.selected_hotkey}>", lambda e: self.toggle_clicking())
 
         # If keyboard module usable (root), start polling hotkey (assume single key like 'f8')
         self.global_hotkey = "f8"  # adapt as needed
@@ -46,22 +45,22 @@ class PyMClickerInterface():
 
     def _hotkey_status_text(self):
         if _KEYBOARD_AVAILABLE:
-            return "Global hotkey (F8) active."
+            return f"Global hotkey ({self.clicker_manager.clicker.selected_hotkey}) active."
         if keyboard is None:
-            return "keyboard lib unavailable; using window F8."
-        return "keyboard lib needs root; using window F8."
+            return f"keyboard lib unavailable; using window {self.global_hotkey}."
+        return f"keyboard lib needs root; using window {self.global_hotkey}."
 
     def _poll_global_hotkey(self):
         # Only if keyboard usable
-        if not self.is_clicking and keyboard.is_pressed(self.global_hotkey):
+        if not self.clicker_manager.clicker.isclicking and keyboard.is_pressed(self.global_hotkey):
             self.start_clicking()
-        elif self.is_clicking and keyboard.is_pressed(self.global_hotkey):
+        elif self.clicker_manager.clicker.isclicking and keyboard.is_pressed(self.global_hotkey):
             self.stop_clicking()
         # Re-run after 150 ms
         self.root.after(150, self._poll_global_hotkey)
 
     def toggle_clicking(self):
-        if self.is_clicking:
+        if self.clicker_manager.clicker.isclicking:
             self.stop_clicking()
         else:
             self.start_clicking()
@@ -70,23 +69,23 @@ class PyMClickerInterface():
         """
         Starts the clicking process using the Clicker class.
         """
-        if self.is_clicking:
+        if self.clicker_manager.clicker.isclicking:
             return
-        self.is_clicking = True
+        self.clicker_manager.clicker.isclicking = True
         self.switch_button.config(text="Stop Clicking")
         self.label.config(text="Clicking...")
-        self.clicker.start_clicking()
+        self.clicker_manager.start_clicking()
 
     def stop_clicking(self):
         """
         Stops the clicking process.
         """
-        if not self.is_clicking:
+        if not self.clicker_manager.clicker.isclicking:
             return
-        self.is_clicking = False
+        self.clicker_manager.clicker.isclicking = False
         self.switch_button.config(text="Start Clicking")
         self.label.config(text="Stopped.")
-        self.clicker.stop_clicking()
+        self.clicker_manager.stop_clicking()
 
     def open_settings(self):
         """

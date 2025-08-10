@@ -19,12 +19,12 @@ class ClickerManager:
             print("Clicking started with settings:", self.clicker.get_clicker_info())
             self.start_time = time.time()
             if self.clicker.m_or_k == 'm':
-                if self.clicker.selected_click_type == "Hold":
+                if self.clicker.selected_click_type == "hold":
                     self._perform_mouse_hold()
                 else:
                     self._perform_mouse_clicks()
             else:
-                if self.clicker.selected_click_type == "Hold":
+                if self.clicker.selected_click_type == "hold":
                     self._perform_keyboard_hold()
                 else:
                     self._perform_keyboard_clicks()
@@ -110,7 +110,7 @@ class ClickerManager:
     def set_click_type(self, click_type):
         """
         Sets the type of click to be performed.
-        :param click_type: The type of click (e.g., "Single", "Double").
+        :param click_type: The type of click (e.g., "Single", "Double", "Hold").
         """
         self.clicker.selected_click_type = click_type
         print(f"Click type set to: {click_type}")
