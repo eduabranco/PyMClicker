@@ -87,16 +87,6 @@ class PyMClickerInterface():
         self.label.config(text="Stopped.")
         self.clicker_manager.stop_clicking()
 
-    def open_settings(self):
-        """
-        Opens the PyMClicker's settings window.
-        """
-        win = tk.Toplevel(self.root)
-        win.resizable(False, False)
-        win.title("PyMSettings")
-        win.geometry("300x200")
-        ttk.Label(win, text="(Settings placeholder)").pack(pady=20)
-
 if __name__ == "__main__":
     app = PyMClickerInterface()
     app.root.mainloop()
