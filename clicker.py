@@ -9,9 +9,7 @@ class Clicker:
         self.selected_click_type = selected_click_type  # Default click type
         self.selected_duration = selected_duration  # Default duration in seconds
         self.m_or_k = m_or_k  # Default to mouse click
-        self.isclicking = False  # Flag to track if clicking is in progress
-
-
+        
     def get_clicker_info(self):
         """
         Returns the current information of the clicker.
@@ -22,6 +20,5 @@ class Clicker:
             "hotkey": self.selected_hotkey,
             "click_type": self.selected_click_type,
             "duration": self.selected_duration,
-            "isclicking": self.isclicking,
             "m_or_k": self.m_or_k
         }

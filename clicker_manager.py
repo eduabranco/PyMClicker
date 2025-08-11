@@ -1,7 +1,7 @@
 import pyautogui
 import time
 from clicker import Clicker
-#import math
+import threading
 
 class ClickerManager(Clicker):
     def __init__(self):
@@ -9,6 +9,8 @@ class ClickerManager(Clicker):
         Initializes the Clicker class.
         """
         super().__init__()
+        self.isclicking = False
+        self._click_thread = None
 
     def start_clicking(self):
         """
@@ -17,18 +19,8 @@ class ClickerManager(Clicker):
         if not self.isclicking:
             self.isclicking = True
             print("Clicking started with settings:", self.get_clicker_info())
-            self.start_time = time.time()
-            if self.m_or_k == 'm':
-                if self.selected_click_type == "hold":
-                    self._perform_mouse_hold()
-                else:
-                    self._perform_mouse_clicks()
-            else:
-                if self.selected_click_type == "hold":
-                    self._perform_keyboard_hold()
-                else:
-                    self._perform_keyboard_clicks()
-            self.stop_clicking()
+            self._click_thread = threading.Thread(target=self._run_clicks, daemon=True)
+            self._click_thread.start()
         else:
             print("Clicking is already in progress. Use stop_clicking to stop it.")
 
@@ -41,14 +33,47 @@ class ClickerManager(Clicker):
             print("Clicking stopped.")
         else:
             print("Clicking is not in progress.")
-            return
+
+    def _run_clicks(self):
+        """The main loop for the clicking thread."""
+        start_time = time.time()
+        
+        click_action = None
+        if self.m_or_k == 'm':
+            if self.selected_click_type == "Hold":
+                self._perform_mouse_hold()
+                self.isclicking = False
+                return
+            else: # Single or Double
+                click_action = lambda: pyautogui.click(button=self.selected_button, clicks=1 if self.selected_click_type == "Single" else 2)
+        elif self.m_or_k == 'k':
+            if self.selected_click_type == "Hold":
+                self._perform_keyboard_hold()
+                self.isclicking = False
+                return
+            else: # Single or Double
+                click_action = lambda: pyautogui.press(self.selected_button)
+
+        if click_action:
+            while self.isclicking and (time.time() - start_time) < self.selected_duration:
+                click_action()
+                # Add a small delay to prevent overwhelming the system
+                # For double clicks, the interval is handled by pyautogui, but a small sleep is still good
+                time.sleep(0.01)
+        
+        self.isclicking = False
+        print("Clicking finished.")
+
 
     def _perform_mouse_hold(self):
         """
         Performs the mouse hold action based on the current settings.
         """
         pyautogui.mouseDown(button=self.selected_button)
-        time.sleep(self.selected_duration)
+        # Check periodically to allow stopping during hold
+        end_time = time.time() + self.selected_duration
+        while self.isclicking and time.time() < end_time:
+            time.sleep(0.1)
         pyautogui.mouseUp(button=self.selected_button)
 
     def _perform_mouse_clicks(self):
@@ -65,11 +90,12 @@ class ClickerManager(Clicker):
         """
         Performs the keyboard hold action based on the current settings.
         """
-        for i in self.selected_button:
-            pyautogui.keyDown(key=i)
-        time.sleep(self.selected_duration)
-        for i in self.selected_button:
-            pyautogui.keyUp(key=i)
+        pyautogui.keyDown(self.selected_button)
+        # Check periodically to allow stopping during hold
+        end_time = time.time() + self.selected_duration
+        while self.isclicking and time.time() < end_time:
+            time.sleep(0.1)
+        pyautogui.keyUp(self.selected_button)
 
     def _perform_keyboard_clicks(self):
         """
@@ -78,10 +104,7 @@ class ClickerManager(Clicker):
         while (time.time() - self.start_time) < self.selected_duration:
             if not self.isclicking:
                 break
-            for i in self.selected_button:
-                with pyautogui.hold(keys=i):
-                    if i == self.selected_button[-1]:
-                        pyautogui.press(keys=i)
+            pyautogui.press(self.selected_button)
 
     def set_mouse_button(self, button):
         """
@@ -96,7 +119,7 @@ class ClickerManager(Clicker):
         Sets the keyboard key to be used for clicking.
         :param button: The keyboard key to be set (e.g., "a", "b", "c").
         """
-        self.selected_button.append(button)
+        self.selected_button = button
         print(f"Keyboard key set to: {button}")
 
     def set_hotkey(self, hotkey):
@@ -104,7 +127,7 @@ class ClickerManager(Clicker):
         Sets the hotkey for starting/stopping the clicking process.
         :param hotkey: The hotkey to be set (e.g., "Ctrl+C").
         """
-        self.selected_hotkey.append(hotkey)
+        self.selected_hotkey = hotkey
         print(f"Hotkey set to: {hotkey}")
 
     def set_click_type(self, click_type):
@@ -206,4 +229,3 @@ class ClickerManager(Clicker):
 #                break
 #            else:
 #                print("Unknown command. Please use 'start', 'stop', 'set', or 'exit'.")
-#
