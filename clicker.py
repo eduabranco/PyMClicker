@@ -1,15 +1,16 @@
 class Clicker:
-    def __init__(self):
+    def __init__(self,selected_button="left", selected_hotkey="F8", selected_click_type="Single", selected_duration=5, m_or_k="m"):
         """
         Initializes the Clicker class.
         Sets up the clicker with a default button and duration.
         """
-        self.selected_button = "left"  # Default button
-        self.selected_hotkey = "F8"  # Default hotkey
-        self.selected_click_type = "Single"  # Default click type
-        self.selected_duration = 5  # Default duration in seconds
+        self.selected_button = selected_button  # Default button
+        self.selected_hotkey = selected_hotkey  # Default hotkey
+        self.selected_click_type = selected_click_type  # Default click type
+        self.selected_duration = selected_duration  # Default duration in seconds
+        self.m_or_k = m_or_k  # Default to mouse click
         self.isclicking = False  # Flag to track if clicking is in progress
-        self.m_or_k = "m"  # Default to mouse click
+
 
     def get_clicker_info(self):
         """
